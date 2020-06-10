@@ -2,7 +2,7 @@ orblog (0.1)
 ------
 Simple blog for hidden services with markdown support.
 
-###### Features
+## Features
 * Without JavaScript.
 * Posts with markdown support.
 * Comments with markdown support.
@@ -10,12 +10,12 @@ Simple blog for hidden services with markdown support.
 * View posts by tags.
 
 
-###### System requirements
+## System requirements
 * PHP 7.3 +
 * GDLib
 * SQLite3
 
-###### Installation
+## Installation
 * Edit config file (./config.php).
 * Set permissions.
   * For ./private/data 775
