@@ -1,4 +1,4 @@
-orblog (0.1)
+orblog (0.1.1)
 ------
 Simple blog for hidden services with markdown support.
 
@@ -8,6 +8,7 @@ Simple blog for hidden services with markdown support.
 * Comments with markdown support.
 * Categories.
 * View posts by tags.
+* RSS feed
 
 
 ## System requirements

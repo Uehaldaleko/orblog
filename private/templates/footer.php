@@ -18,8 +18,9 @@
               <?=$_LANG['categories']?>
           </div>
           <div class="title_etc">
+              <a href="index.php?view=rss">RSS</a>          
             <?php if($_SESSION['admin']) { ?>  
-              <a href="index.php?view=admin"><?=$_LANG['admin']?></a>
+              [ <a href="index.php?view=admin"><?=$_LANG['admin']?></a> ]
             <?php } ?>
           </div>     
         </div>
