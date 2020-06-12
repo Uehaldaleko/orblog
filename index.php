@@ -15,6 +15,7 @@ include_once 'private/libs/functions.php';
 include_once 'private/libs/parsedown.php';
 include_once 'private/languages/'.LANG.'.php';
 
+error_reporting(0);
 date_default_timezone_set('UTC');
 session_name('SESSID');
 session_start();
