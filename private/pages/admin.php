@@ -23,18 +23,23 @@ if($_GET['auth'] == 'sign_out')
 
 /*--  Admin panel actions  --------------------------------------------------*/
 if($_GET['action'] == 'add_post' and $_SESSION['admin'])       // Add post
-{  
+{
   $query = 'INSERT INTO `posts`
                   (time, category, title, desc, text, tags)
                   VALUES
-                  ("'.time().'",
-                  "'.$_POST['category'].'",
-                  "'.$_POST['title'].'",
-                  "'.$_POST['desc'].'",
-                  "'.$_POST['text'].'",
-                  "'.$_POST['tags'].'")';
+                  (:time, :cat, :title, :desc, :text, :tags)';
 
-  $sqlite -> exec($query);
+  $stmt = $sqlite -> prepare($query);
+
+  $stmt -> bindValue(':time',  time(),             SQLITE3_INTEGER);  
+  $stmt -> bindValue(':cat',   $_POST['category'], SQLITE3_INTEGER);
+  $stmt -> bindValue(':title', $_POST['title'],    SQLITE3_TEXT);
+  $stmt -> bindValue(':desc',  $_POST['desc'],     SQLITE3_TEXT);
+  $stmt -> bindValue(':text',  $_POST['text'],     SQLITE3_TEXT);
+  $stmt -> bindValue(':tags',  $_POST['tags'],     SQLITE3_TEXT);
+
+  $stmt->execute();
+
   header('Location:'.URL); exit;
 }
 
@@ -42,17 +47,27 @@ if($_GET['action'] == 'edit_post' and $_SESSION['admin'])      // Edit post
 {  
   $query  = 'SELECT COUNT(*) FROM `comments` WHERE id = '.$_GET['post'];
   $count  =  $sqlite -> querySingle($query);
-  
+
   $query  = 'UPDATE `posts` SET 
-             category = '.$_POST['category'].',
-             title = "'.$_POST['title'].'",
-             desc = "'.$_POST['desc'].'",
-             text = "'.$_POST['text'].'", 
-             tags = "'.$_POST['tags'].'",             
-             comments = '.$count.' 
-             WHERE id = '.$_GET['post'];
+             category = :cat,
+             title = :title,
+             desc = :desc,
+             text = :text, 
+             tags = :tags,             
+             comments = :count
+             WHERE id = :id';
   
-  $sqlite -> exec($query);  
+  $stmt = $sqlite -> prepare($query);
+
+  $stmt -> bindValue(':cat',   $_POST['category'], SQLITE3_INTEGER);
+  $stmt -> bindValue(':title', $_POST['title'],    SQLITE3_TEXT);
+  $stmt -> bindValue(':desc',  $_POST['desc'],     SQLITE3_TEXT);
+  $stmt -> bindValue(':text',  $_POST['text'],     SQLITE3_TEXT);
+  $stmt -> bindValue(':tags',  $_POST['tags'],     SQLITE3_TEXT);
+  $stmt -> bindValue(':count', $count,             SQLITE3_INTEGER);
+  $stmt -> bindValue(':id',    $_GET['post'],      SQLITE3_INTEGER); 
+  
+  $stmt->execute();
   
   header('Location:'.URL.'/index.php?view=post&id='.$_GET['post']); exit;
 } 
